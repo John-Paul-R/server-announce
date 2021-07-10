@@ -3,25 +3,25 @@
   "id": "${id}",
   "version": "${version}",
   "name": "${name}",
-  "description": "Lorem ipsum dolor sit amet",
+  "description": "A Fabric serverside mod to send chat messages when certain MC server events occur.\n\n",
   "authors": [
     "[fullname]"
   ],
   "contact": {
-    "homepage": "https://github.com/John-Paul-R/fabric-template-mod",
-    "sources": "https://github.com/John-Paul-R/fabric-template-mod",
-    "issues": "https://github.com/John-Paul-R/fabric-template-mod/issues"
+    "homepage": "https://github.com/John-Paul-R/server-announce",
+    "sources": "https://github.com/John-Paul-R/server-announce",
+    "issues": "https://github.com/John-Paul-R/server-announce/issues"
   },
-  "license": "CC0",
-  "icon": "assets/modid/icon.jpg",
+  "license": "MIT",
+  "icon": "assets/serverannounce/icon.jpg",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.jpcode.modid.Example"
+      "dev.jpcode.serverannounce.ServerAnnounce"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "serverannounce.mixins.json"
   ],
   "depends": {
     "java": ">=16",
@@ -30,7 +30,7 @@
     "fabric": "*"
   },
   "recommends": {
-    "modid-sub": "*"
+    "serverannounce-sub": "*"
   },
   "suggests": {
     "modmenu": "*"

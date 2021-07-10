@@ -24,6 +24,6 @@ build:
   - '**/settings.gradle'
   - '.github/workflows/build.yml'
 
-# Add 'modid' labels for changes to their respective codebases
-#modid: 'src/**/*'
-#modid-sub: 'example-submod/**/*'
+# Add 'serverannounce' labels for changes to their respective codebases
+#serverannounce: 'src/**/*'
+#serverannounce-sub: 'example-submod/**/*'

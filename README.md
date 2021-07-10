@@ -1,13 +1,13 @@
 <div align="center">
 
-<img alt="Example Icon" src="src/main/resources/assets/modid/icon.jpg" width="128">
+<img alt="Example Icon" src="src/main/resources/assets/serverannounce/icon.jpg" width="128">
 
 # Fabric Example Mod
 
 Lorem ipsum dolor sit amet
 
 <!-- todo: replace 494721 with your CurseForge project id -->
-[![Release](https://img.shields.io/github/v/release/John-Paul-R/fabric-template-mod?style=for-the-badge&include_prereleases&sort=semver)][releases]
+[![Release](https://img.shields.io/github/v/release/John-Paul-R/server-announce?style=for-the-badge&include_prereleases&sort=semver)][releases]
 [![Available For](https://img.shields.io/badge/dynamic/json?label=Available%20For&style=for-the-badge&color=34aa2f&query=gameVersionLatestFiles%5B0%5D.gameVersion&url=https%3A%2F%2Faddons-ecs.forgesvc.net%2Fapi%2Fv2%2Faddon%2F494721)][curseforge]
 [![Downloads](https://img.shields.io/badge/dynamic/json?label=Downloads&style=for-the-badge&color=f16436&query=downloadCount&url=https%3A%2F%2Faddons-ecs.forgesvc.net%2Fapi%2Fv2%2Faddon%2F494721)][curseforge:files]
 
@@ -37,14 +37,13 @@ Thank you for considering contributing to Example! Please see the
 
 ## Licence
 
-<!-- todo: see https://choosealicense.com -->
-Example is open-sourced software licenced under the [CC0 licence][licence].
+Server Announce is open-sourced software licenced under the [MIT licence][licence].
 
 [contributing]: .github/CONTRIBUTING.md
-[curseforge]: https://curseforge.com/minecraft/mc-mods/modid
-[curseforge:files]: https://curseforge.com/minecraft/mc-mods/modid/files
+[curseforge]: https://curseforge.com/minecraft/mc-mods/serverannounce
+[curseforge:files]: https://curseforge.com/minecraft/mc-mods/serverannounce/files
 [fabric]: https://fabricmc.net/
-[licence]: https://creativecommons.org/publicdomain/zero/1.0
+[licence]: LICENSE
 [minecraft]: https://minecraft.net/
-[releases]: https://github.com/John-Paul-R/fabric-template-mod/releases
+[releases]: https://github.com/John-Paul-R/server-announce/releases
 [security]: .github/SECURITY.md
