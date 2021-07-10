@@ -43,7 +43,7 @@ Server Announce is open-sourced software licenced under the [MIT licence][licenc
 [curseforge]: https://curseforge.com/minecraft/mc-mods/serverannounce
 [curseforge:files]: https://curseforge.com/minecraft/mc-mods/serverannounce/files
 [fabric]: https://fabricmc.net/
-[licence]: LICENSE
+[licence]: LICENCE
 [minecraft]: https://minecraft.net/
 [releases]: https://github.com/John-Paul-R/server-announce/releases
 [security]: .github/SECURITY.md
