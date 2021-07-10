@@ -12,6 +12,6 @@ public class ServerAnnounce implements ModInitializer
     @Override
     public void onInitialize()
     {
-        LOGGER.info("Example is getting ready...");
+        LOGGER.info("Server Announce is getting ready...");
     }
 }

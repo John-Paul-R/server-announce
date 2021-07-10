@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DisplayName("Example")
+@DisplayName("Server Announce Test")
 public class ServerAnnounceTest
 {
     @Test

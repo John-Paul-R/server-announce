@@ -1,10 +1,10 @@
 <div align="center">
 
-<img alt="Example Icon" src="src/main/resources/assets/serverannounce/icon.jpg" width="128">
+<img alt="Server Announce Icon" src="src/main/resources/assets/serverannounce/icon.jpg" width="128">
 
-# Fabric Example Mod
+# Server Announce
 
-Lorem ipsum dolor sit amet
+Simple, Configurable Server Announcements
 
 <!-- todo: replace 494721 with your CurseForge project id -->
 [![Release](https://img.shields.io/github/v/release/John-Paul-R/server-announce?style=for-the-badge&include_prereleases&sort=semver)][releases]
@@ -13,14 +13,13 @@ Lorem ipsum dolor sit amet
 
 </div>
 
-Example is a **Minecraft mod** that lorem ipsum dolor sit amet. Ut mi lectus,
-egestas a justo nec, hendrerit tempus ipsum. Nulla blandit porta sodales. Nulla
-accumsan ipsum vitae tortor facilisis, id malesuada enim sagittis.
+Server Announce is a serverside **Fabric** mod to send chat messages when
+certain Minecraft server events occur.
 
 It is built on the [Fabric][fabric] mod loader and is available for modern
 versions of [Minecraft][minecraft] Java Edition.
 
-## Extended Description
+## Features
 
 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium
 doloremque laudantium.
@@ -32,7 +31,7 @@ doloremque laudantium.
 
 ## Contributing
 
-Thank you for considering contributing to Example! Please see the
+Thank you for considering contributing to Server Announce! Please see the
 [Contribution Guidelines][contributing].
 
 ## Licence
