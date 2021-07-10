@@ -2,13 +2,13 @@ blank_issues_enabled: true
 contact_links:
   - name: Wiki
     url: https://github.com/John-Paul-R/server-announce/wiki
-    about: Please find helpful guides related to using the mod here
+    about: Please find helpful guides related to using Server Announce here
   - name: GitHub Discussions
     url: https://github.com/John-Paul-R/server-announce/discussions
-    about: Please ask and answer any questions regarding the mod here
+    about: Please ask and answer any questions regarding Server Announce here
   - name: Join Discord
     url: https://discord.jpcode.dev/
-    about: Please get involved with the mod's community here
+    about: A place for questions & discussion about the Server Announce
   - name: About Fabric
     url: https://fabricmc.net/
     about: Please find information regarding the Fabric mod loader here

@@ -4,10 +4,10 @@
   "package": "dev.jpcode.serverannounce.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [],
-  "server": [],
-  "client": [
-    "TitleScreenMixin"
+  "server": [
+    "LivingEntityMixin"
   ],
+  "client": [],
   "injectors": {
     "defaultRequire": 1
   }
