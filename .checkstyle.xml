@@ -20,7 +20,7 @@
   <module name="FileLength"/>
   <module name="LineLength">
     <property name="fileExtensions" value="java"/>
-    <property name="max" value="120"/>
+    <property name="max" value="200"/>
   </module>
 
   <!-- Checks for whitespace                             -->
@@ -50,7 +50,7 @@
 
     <!-- Checks for imports                             -->
     <!-- See https://checkstyle.org/config_imports.html -->
-    <module name="AvoidStarImport"/>
+<!--    <module name="AvoidStarImport"/>-->
     <module name="IllegalImport"/>
     <module name="ImportOrder">
       <property name="groups" value="java,javax,*,com.mojang,net.minecraft,net.fabricmc,dev.jpcode"/>
@@ -179,7 +179,7 @@
     <!-- Miscellaneous checks                        -->
     <!-- See https://checkstyle.org/config_misc.html -->
     <module name="ArrayTypeStyle"/>
-    <module name="CommentsIndentation"/>
+<!--    <module name="CommentsIndentation"/>-->
     <module name="Indentation"/>
     <module name="OuterTypeFilename"/>
     <module name="TodoComment"/>

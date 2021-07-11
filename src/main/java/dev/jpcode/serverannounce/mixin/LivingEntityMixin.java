@@ -16,7 +16,8 @@ import net.minecraft.util.Util;
 public class LivingEntityMixin
 {
     /**
-     * Injects into the beginning of the onDeath method and sends a chat death message if the entity has a custom name.
+     * Injects into the beginning of the onDeath method and sends a chat death message to all players if the entity
+     * has a custom name.
      *
      * @param source cause of death
      * @param info callback info
