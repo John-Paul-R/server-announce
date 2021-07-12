@@ -202,7 +202,7 @@ githubRelease {
     targetCommitish "master" // by default this is set to "master"
     releaseName project.version // Release title, by default this is the same as the tagName
     body getChangelog() // by default this is empty
-    draft false // by default this is false
+    draft true // by default this is false
     prerelease false // by default this is false
     releaseAssets jar.destinationDirectory.getAsFileTree().matching {
         include "**/*${project.version}.jar"

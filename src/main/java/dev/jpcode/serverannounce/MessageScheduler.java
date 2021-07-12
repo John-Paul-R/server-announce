@@ -28,7 +28,7 @@ import static java.nio.file.Files.newBufferedReader;
 
 public class MessageScheduler {
 
-    private LinkedHashMap<String, ScheduledMessage> scheduledMessages;
+    private final LinkedHashMap<String, ScheduledMessage> scheduledMessages;
     private static MessageScheduler instance;
 
     public MessageScheduler() {
