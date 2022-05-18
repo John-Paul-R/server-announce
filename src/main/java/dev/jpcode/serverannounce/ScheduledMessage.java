@@ -59,7 +59,7 @@ public class ScheduledMessage {
                 // This can occur if the ScheduledMessage was just created without access to the current ticks;
                 schedule(currentTicks);
             }
-            server.getPlayerManager().broadcastChatMessage(text, MessageType.SYSTEM, Util.NIL_UUID);
+            server.getPlayerManager().broadcast(text, MessageType.SYSTEM, Util.NIL_UUID);
             if (this.isPeriodic) {
                 schedule(currentTicks);
             } else {

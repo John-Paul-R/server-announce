@@ -30,10 +30,10 @@ public class LivingEntityMixin
     private void onDeath(DamageSource source, CallbackInfo info) {
         LivingEntity self = (LivingEntity)(Object)this;
         if (self.hasCustomName()) {
-            // Don't repeat message for tamed entities (they already have a message sent in vanilla)
+            // Don't repeat message for tamed entities (they already have a message sent in vanilla if named)
             if (!(self instanceof Tameable && ((Tameable)self).getOwner() != null)) {
                 Text text = self.getDamageTracker().getDeathMessage();
-                self.getServer().getPlayerManager().broadcastChatMessage(text, MessageType.SYSTEM, Util.NIL_UUID);
+                self.getServer().getPlayerManager().broadcast(text, MessageType.SYSTEM, Util.NIL_UUID);
             }
         }
     }
