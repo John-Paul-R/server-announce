@@ -6,10 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Stream;
 
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -17,6 +15,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.JsonWriter;
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.LiteralText;
@@ -24,16 +23,22 @@ import net.minecraft.util.Formatting;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 
+import dev.jpcode.serverannounce.message.PeriodicSingleMessage;
+import dev.jpcode.serverannounce.message.ScheduledMessage;
+
+import static java.nio.file.Files.deleteIfExists;
 import static java.nio.file.Files.newBufferedReader;
 
 public class MessageScheduler {
 
     private final LinkedHashMap<String, ScheduledMessage> scheduledMessages;
+    private final ArrayList<ScheduledMessage> notDoneMessages;
     private static MessageScheduler instance;
 
     public MessageScheduler() {
         instance = this;
         this.scheduledMessages = new LinkedHashMap<>();
+        notDoneMessages = new ArrayList<>();
 
         ServerTickEvents.END_SERVER_TICK.register(this::tick);
     }
@@ -44,10 +49,9 @@ public class MessageScheduler {
 
     private void tick(MinecraftServer server) {
 
-        Iterator<Map.Entry<String, ScheduledMessage>> it = scheduledMessages.entrySet().iterator();
+        Iterator<ScheduledMessage> it = notDoneMessages.iterator();
         while (it.hasNext()) {
-            Map.Entry<String, ScheduledMessage> entry = it.next();
-            ScheduledMessage message = entry.getValue();
+            ScheduledMessage message = it.next();
             message.tick(server);
             if (message.isDone()) {
                 it.remove();
@@ -55,8 +59,21 @@ public class MessageScheduler {
         }
     }
 
+    public Stream<ScheduledMessage> streamScheduledMessages() {
+        return this.scheduledMessages.values().stream();
+    }
+
+    public Stream<Map.Entry<String, ScheduledMessage>> streamScheduledMessagesEntries() {
+        return this.scheduledMessages.entrySet().stream();
+    }
+
+    public ScheduledMessage getScheduledMessage(String messageName) {
+        return scheduledMessages.get(messageName);
+    }
+
     public void scheduleMessage(String messageName, ScheduledMessage message) {
         scheduledMessages.put(messageName, message);
+        notDoneMessages.add(message);
         this.save();
     }
 
@@ -80,17 +97,22 @@ public class MessageScheduler {
 
     private static final Path SAVE_PATH = Paths.get("./config/server_announce/scheduled_messages");
 
+    private Path messageFilePath(String messageName) {
+        return SAVE_PATH.resolve(messageName.concat(".json"));
+    }
+
     public void save() {
         final File saveDir = SAVE_PATH.toFile();
         saveDir.mkdirs();
         final ScheduledMessage.Serializer serializer = new ScheduledMessage.Serializer();
         for (Map.Entry<String, ScheduledMessage> next : scheduledMessages.entrySet()) {
-            saveScheduledMessage(next.getValue(), SAVE_PATH.resolve(next.getKey().concat(".json")).toFile(), serializer);
+            saveScheduledMessage(next.getValue(), messageFilePath(next.getKey()).toFile(), serializer);
         }
     }
 
     public void initExampleMessage() {
-        scheduleMessage("ExampleMessage", new ScheduledMessage(
+        scheduleMessage("ExampleMessage", new PeriodicSingleMessage(
+            "ExampleMessage",
             new LiteralText("")
                 .append(new LiteralText("ServerAnnounce").formatted(Formatting.GREEN))
                 .append(new LiteralText(" >> ").formatted(Formatting.DARK_GRAY))
@@ -100,8 +122,7 @@ public class MessageScheduler {
                         SAVE_PATH.toFile().getPath()
                     )).formatted(Formatting.GRAY)
                 ),
-            20 * 60 * 2,
-            true
+            20 * 60 * 2
         ));
         this.save();
     }
@@ -120,6 +141,10 @@ public class MessageScheduler {
             .create();
         File[] files = saveDir.listFiles();
         for (File file : files) {
+            if (!file.getPath().endsWith(".json")) {
+                ServerAnnounce.LOGGER.warn("Skipping non-JSON file '{}'", file.getPath());
+                continue;
+            }
 
             try {
                 ScheduledMessage message = gson.fromJson(newBufferedReader(file.toPath()), ScheduledMessage.class);
@@ -130,6 +155,7 @@ public class MessageScheduler {
                         String.format("Message loaded from file '%s' failed to parse!", file.getPath())
                     )
                 );
+                notDoneMessages.add(message);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -143,4 +169,16 @@ public class MessageScheduler {
 
     }
 
+    public @Nullable ScheduledMessage deleteScheduledMessage(String messageName) {
+        var deletedMsg = scheduledMessages.remove(messageName);
+        notDoneMessages.remove(deletedMsg);
+
+        try {
+            deleteIfExists(messageFilePath(messageName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return deletedMsg;
+    }
 }
