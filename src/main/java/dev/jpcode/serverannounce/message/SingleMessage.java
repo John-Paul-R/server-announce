@@ -35,11 +35,11 @@ public class SingleMessage extends ScheduledMessage {
         root.add("message", serializeText(message));
     }
 
-    public static PeriodicScheduledMessage readJson(JsonObject root) {
+    public static SingleMessage readJson(JsonObject root) {
         var messagesProp = root.get("message");
         var message = Text.Serializer.fromJson(messagesProp);
 
         var tickPeriod = root.get("tickPeriod").getAsInt();
-        return new PeriodicSingleMessage(message, tickPeriod);
+        return new SingleMessage(message, tickPeriod);
     }
 }
