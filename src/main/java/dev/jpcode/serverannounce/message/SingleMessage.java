@@ -59,13 +59,13 @@ public class SingleMessage extends ScheduledMessage {
                 .then(CommandManager.argument("delay_ticks", IntegerArgumentType.integer(1))
                     .then(CommandManager.argument("messaage_text", TextArgumentType.text())
                         .executes(context -> {
-                            var message_name = StringArgumentType.getString(context, "message_name");
-                            var delay_ticks = IntegerArgumentType.getInteger(context, "delay_ticks");
-                            var messaage_text = TextArgumentType.getTextArgument(context, "messaage_text");
+                            var messageName = StringArgumentType.getString(context, "message_name");
+                            var delayTicks = IntegerArgumentType.getInteger(context, "delay_ticks");
+                            var messaageText = TextArgumentType.getTextArgument(context, "messaage_text");
 
                             MessageScheduler.getInstance().scheduleMessage(
-                                message_name,
-                                new SingleMessage(message_name, messaage_text, delay_ticks));
+                                messageName,
+                                new SingleMessage(messageName, messaageText, delayTicks));
 
                             return 1;
                         })

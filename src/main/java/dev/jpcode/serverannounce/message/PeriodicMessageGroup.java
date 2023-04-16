@@ -25,7 +25,6 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
     private List<Text> messagesList;
     private int messageIdx = -1;
 
-
     public PeriodicMessageGroup(String messageGroupName, int tickPeriod) {
         super(messageGroupName, tickPeriod);
         this.messagesMap = new HashMap<>();
@@ -88,23 +87,22 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
                     .then(CommandManager.argument("message_name", StringArgumentType.word())
                         .then(CommandManager.argument("messaage_text", TextArgumentType.text())
                             .executes(context -> {
-                                var message_group_name = StringArgumentType.getString(context, "message_group_name");
-                                var message_name = StringArgumentType.getString(context, "message_name");
-                                var messaage_text = TextArgumentType.getTextArgument(context, "messaage_text");
+                                var messageGroupName = StringArgumentType.getString(context, "message_group_name");
+                                var messageName = StringArgumentType.getString(context, "message_name");
+                                var messaageText = TextArgumentType.getTextArgument(context, "messaage_text");
 
                                 var messageScheduler = MessageScheduler.getInstance();
-                                var message = messageScheduler.getScheduledMessage(message_group_name);
+                                var message = messageScheduler.getScheduledMessage(messageGroupName);
 
                                 if (!(message instanceof PeriodicMessageGroup editableMessage)) {
-                                    context.getSource().sendError(new LiteralText("Message '%s' is not a PeriodicMessageGroup".formatted(message_name)));
+                                    context.getSource().sendError(new LiteralText("Message '%s' is not a PeriodicMessageGroup".formatted(messageName)));
                                     return 2;
                                 }
 
-                                editableMessage.messagesMap.put(message_name, messaage_text);
+                                editableMessage.messagesMap.put(messageName, messaageText);
                                 editableMessage.updateMessagesList();
 
                                 messageScheduler.save();
-
 
                                 return 1;
 
@@ -117,12 +115,12 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
             .then(CommandManager.argument("message_group_name", StringArgumentType.word())
                 .then(CommandManager.argument("period_ticks", IntegerArgumentType.integer(1))
                     .executes(context -> {
-                        var message_group_name = StringArgumentType.getString(context, "message_group_name");
-                        var period_ticks = IntegerArgumentType.getInteger(context, "period_ticks");
+                        var messageGroupName = StringArgumentType.getString(context, "message_group_name");
+                        var periodTicks = IntegerArgumentType.getInteger(context, "period_ticks");
 
                         MessageScheduler.getInstance().scheduleMessage(
-                            message_group_name,
-                            new PeriodicMessageGroup(message_group_name, period_ticks));
+                            messageGroupName,
+                            new PeriodicMessageGroup(messageGroupName, periodTicks));
 
                         return 1;
                     })

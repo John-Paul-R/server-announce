@@ -64,13 +64,13 @@ public class PeriodicSingleMessage extends PeriodicScheduledMessage {
                 .then(CommandManager.argument("period_ticks", IntegerArgumentType.integer(1))
                     .then(CommandManager.argument("messaage_text", TextArgumentType.text())
                         .executes(context -> {
-                            var message_name = StringArgumentType.getString(context, "message_name");
-                            var period_ticks = IntegerArgumentType.getInteger(context, "period_ticks");
-                            var messaage_text = TextArgumentType.getTextArgument(context, "messaage_text");
+                            var messageName = StringArgumentType.getString(context, "message_name");
+                            var periodTicks = IntegerArgumentType.getInteger(context, "period_ticks");
+                            var messaageText = TextArgumentType.getTextArgument(context, "messaage_text");
 
                             MessageScheduler.getInstance().scheduleMessage(
-                                message_name,
-                                new PeriodicSingleMessage(message_name, messaage_text, period_ticks));
+                                messageName,
+                                new PeriodicSingleMessage(messageName, messaageText, periodTicks));
 
                             return 1;
                         })

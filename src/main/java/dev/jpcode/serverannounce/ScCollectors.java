@@ -9,7 +9,8 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.server.command.ServerCommandSource;
 
-public class ScCollectors {
+public final class ScCollectors {
+    private ScCollectors() {}
 
     public static Collector<String, SuggestionsBuilder, CompletableFuture<Suggestions>> toSuggestionsProvider(
         final CommandContext<ServerCommandSource> ctx,
