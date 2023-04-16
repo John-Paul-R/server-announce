@@ -2,10 +2,16 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'maven-publish'
-    id 'com.modrinth.minotaur' version '1.2.1'
+    id 'com.modrinth.minotaur' version '2.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id "com.github.breadmoirai.github-release" version "2.2.12"
+    id "com.github.breadmoirai.github-release" version "2.3.7"
     id 'fabric-loom' version '0.10-SNAPSHOT'
+}
+
+ext.env = loadenv()
+
+String getenv(String key) {
+    return env.getOrDefault(key, "NOT FOUND")
 }
 
 allprojects {
@@ -105,7 +111,6 @@ task modrinth(type: TaskModrinthUpload) {
     group 'upload'
     allprojects.each { dependsOn it.build }
 
-    Map env = getenv()
     onlyIf {
         // Only attempt to run this task if the MODRINTH variable is set in .env, otherwise SKIP it
         env.containsKey("MODRINTH")
@@ -145,7 +150,6 @@ task modrinth(type: TaskModrinthUpload) {
 
 // Define how artifacts are published to CurseForge (https://curseforge.com)
 curseforge {
-    Map env = getenv()
     // Set the API token from the environment
     apiKey = env.get("CURSEFORGE_KEY") as String
 
@@ -189,7 +193,6 @@ tasks.getByName("githubRelease").each { task -> configure(task) {
     group = "upload"
 }}
 githubRelease {
-    Map env = getenv()
 //    group = "upload"
 //    onlyIf {
 //        env.get("GITHUB_TOKEN") != null
@@ -231,7 +234,6 @@ publishing {
     repositories {
         // GitHub Packages (https://pkg.github.com)
         maven {
-            Map env = getenv()
             name 'GitHub'
             url "https://maven.pkg.github.com/${project.github_repo}"
             credentials {
@@ -242,7 +244,7 @@ publishing {
     }
 }
 
-def static getenv(path = ".env") {
+def static loadenv(path = ".env") {
     def env = [:]
 
     def file = new File(path)
