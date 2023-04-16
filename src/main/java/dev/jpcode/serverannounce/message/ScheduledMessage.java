@@ -17,10 +17,12 @@ import net.minecraft.util.Util;
 import dev.jpcode.serverannounce.ServerAnnounce;
 
 public abstract class ScheduledMessage implements JsonSerializable {
+    protected final String messageName;
     protected final int tickPeriod;
     protected int endTick;
 
-    public ScheduledMessage(int tickPeriod) {
+    public ScheduledMessage(String messageName, int tickPeriod) {
+        this.messageName = messageName;
         this.tickPeriod = tickPeriod;
         endTick = -1;
     }
@@ -75,12 +77,6 @@ public abstract class ScheduledMessage implements JsonSerializable {
             return gsonBuilder.create();
         });
 
-        private enum ScheduledMessageType {
-            PeriodicMessageGroup,
-            PeriodicSingleMessage,
-            SingleMessage,
-        }
-
         private ScheduledMessageType getTypeCode(ScheduledMessage scheduledMessage) {
             if (scheduledMessage instanceof PeriodicMessageGroup) {
                 return ScheduledMessageType.PeriodicMessageGroup;
@@ -94,7 +90,7 @@ public abstract class ScheduledMessage implements JsonSerializable {
                 return ScheduledMessageType.PeriodicSingleMessage;
             }
 
-            throw new NotImplementedException("Developer error! Reach out in the EssentialCommands Discord, or via GitHub issues!");
+            throw new NotImplementedException("Developer error! Reach out via GitHub issues!");
         }
 
         private static final Map<ScheduledMessageType, ScheduledMessageJsonReader> SCHEDULED_MESSAGE_READERS = Util.make(() -> {
@@ -114,6 +110,7 @@ public abstract class ScheduledMessage implements JsonSerializable {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("_do_not_touch_schema_version", 1);
             jsonObject.addProperty("messageType", getTypeCode(src).toString());
+            jsonObject.addProperty("messageName", src.messageName);
             src.writeJson(jsonObject);
             return jsonObject;
         }

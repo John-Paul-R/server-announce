@@ -4,8 +4,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Text;
 
 public abstract class PeriodicScheduledMessage extends ScheduledMessage {
-    public PeriodicScheduledMessage(int tickPeriod) {
-        super(tickPeriod);
+    public PeriodicScheduledMessage(String messageName, int tickPeriod) {
+        super(messageName, tickPeriod);
     }
 
     @java.lang.Override

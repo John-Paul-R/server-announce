@@ -1,12 +1,20 @@
 package dev.jpcode.serverannounce;
 
+import java.util.Map;
+
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+
+import dev.jpcode.serverannounce.message.PeriodicMessageGroup;
+import dev.jpcode.serverannounce.message.PeriodicSingleMessage;
+import dev.jpcode.serverannounce.message.SingleMessage;
 
 public final class ServerAnnounceCommandRegistry {
 
@@ -55,6 +63,33 @@ public final class ServerAnnounceCommandRegistry {
 
                         return 1;
                     }))
+                .then(CommandManager.literal("create")
+                    .then(PeriodicMessageGroup.getCreateCommandBuilder())
+                    .then(PeriodicSingleMessage.getCreateCommandBuilder())
+                    .then(SingleMessage.getCreateCommandBuilder())
+                )
+                .then(CommandManager.literal("edit")
+                    .then(PeriodicMessageGroup.getEditCommandBuilder())
+//                    .then(PeriodicSingleMessage.getEditCommandBuilder())
+//                    .then(SingleMessage.getEditCommandBuilder())
+                )
+                .then(CommandManager.literal("delete")
+                    .then(CommandManager.argument("message_name", StringArgumentType.word())
+                        .suggests((ctx, suggestionsBuilder) -> MessageScheduler.getInstance()
+                            .streamScheduledMessagesEntries()
+                            .map(Map.Entry::getKey)
+                            .collect(ScCollectors.toSuggestionsProvider(ctx, suggestionsBuilder)))
+                        .executes(context -> {
+                            var messageName = StringArgumentType.getString(context, "message_name");
+                            var deletedNode = MessageScheduler.getInstance().deleteScheduledMessage(messageName);
+                            if (deletedNode == null) {
+                                context.getSource().sendError(Text.of("No scheduled message with name '%s' exists.".formatted(messageName)));
+                            } else {
+                                context.getSource().sendFeedback(Text.of("Deleted scheduled message '%s'".formatted(messageName)), true);
+                            }
+                            return 1;
+                        })
+                    ))
             );
         });
 
