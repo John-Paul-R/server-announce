@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import com.google.common.io.Files;
 import com.google.gson.Gson;
@@ -23,6 +24,9 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.Formatting;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+
+import dev.jpcode.serverannounce.message.PeriodicSingleMessage;
+import dev.jpcode.serverannounce.message.ScheduledMessage;
 
 import static java.nio.file.Files.newBufferedReader;
 
@@ -53,6 +57,10 @@ public class MessageScheduler {
                 it.remove();
             }
         }
+    }
+
+    public Stream<ScheduledMessage> streamScheduledMessages() {
+        return this.scheduledMessages.values().stream();
     }
 
     public void scheduleMessage(String messageName, ScheduledMessage message) {
@@ -90,7 +98,7 @@ public class MessageScheduler {
     }
 
     public void initExampleMessage() {
-        scheduleMessage("ExampleMessage", new ScheduledMessage(
+        scheduleMessage("ExampleMessage", new PeriodicSingleMessage(
             new LiteralText("")
                 .append(new LiteralText("ServerAnnounce").formatted(Formatting.GREEN))
                 .append(new LiteralText(" >> ").formatted(Formatting.DARK_GRAY))
@@ -100,8 +108,7 @@ public class MessageScheduler {
                         SAVE_PATH.toFile().getPath()
                     )).formatted(Formatting.GRAY)
                 ),
-            20 * 60 * 2,
-            true
+            20 * 60 * 2
         ));
         this.save();
     }
@@ -120,6 +127,10 @@ public class MessageScheduler {
             .create();
         File[] files = saveDir.listFiles();
         for (File file : files) {
+            if (!file.getPath().endsWith(".json")) {
+                ServerAnnounce.LOGGER.warn("Skipping non-JSON file '{}'", file.getPath());
+                continue;
+            }
 
             try {
                 ScheduledMessage message = gson.fromJson(newBufferedReader(file.toPath()), ScheduledMessage.class);

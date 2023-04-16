@@ -44,6 +44,17 @@ public final class ServerAnnounceCommandRegistry {
                         );
                         return 1;
                     }))
+                .then(CommandManager.literal("executeAll")
+                    .executes(context -> {
+                        MessageScheduler.getInstance().streamScheduledMessages()
+                            .forEach(m -> m.exec(context.getSource().getServer()));
+
+                        context.getSource().sendFeedback(
+                            new LiteralText(resPrefix.concat("Executed all scheduled messages.")), true
+                        );
+
+                        return 1;
+                    }))
             );
         });
 
