@@ -5,12 +5,12 @@ import java.util.Map;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
 import dev.jpcode.serverannounce.message.PeriodicMessageGroup;
 import dev.jpcode.serverannounce.message.PeriodicSingleMessage;
@@ -23,7 +23,10 @@ public final class ServerAnnounceCommandRegistry {
     }
 
     public static void register() {
-        CommandRegistrationCallback.EVENT.register((CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) -> {
+        CommandRegistrationCallback.EVENT.register((
+                CommandDispatcher<ServerCommandSource> dispatcher,
+                CommandRegistryAccess registryAccess,
+                CommandManager.RegistrationEnvironment environment) -> {
             String resPrefix = "[ServerAnnounce] ";
             dispatcher.register(CommandManager.literal("serverannounce")
                 .requires(source -> source.hasPermissionLevel(4))
@@ -31,7 +34,7 @@ public final class ServerAnnounceCommandRegistry {
                     .executes(context -> {
                         MessageScheduler.getInstance().load();
                         context.getSource().sendFeedback(
-                            new LiteralText(resPrefix.concat("MessageScheduler reloaded from disk")), true
+                            Text.literal(resPrefix.concat("MessageScheduler reloaded from disk")), true
                         );
                         return 1;
                     }))
@@ -39,7 +42,7 @@ public final class ServerAnnounceCommandRegistry {
                     .executes(context -> {
                         MessageScheduler.getInstance().save();
                         context.getSource().sendFeedback(
-                            new LiteralText(resPrefix.concat("MessageScheduler state saved to disk")), true
+                            Text.literal(resPrefix.concat("MessageScheduler state saved to disk")), true
                         );
                         return 1;
 
@@ -48,7 +51,7 @@ public final class ServerAnnounceCommandRegistry {
                     .executes(context -> {
                         MessageScheduler.getInstance().initExampleMessage();
                         context.getSource().sendFeedback(
-                            new LiteralText(resPrefix.concat("Created an example announcement message.")), true
+                            Text.literal(resPrefix.concat("Created an example announcement message.")), true
                         );
                         return 1;
                     }))
@@ -58,7 +61,7 @@ public final class ServerAnnounceCommandRegistry {
                             .forEach(m -> m.exec(context.getSource().getServer()));
 
                         context.getSource().sendFeedback(
-                            new LiteralText(resPrefix.concat("Executed all scheduled messages.")), true
+                            Text.literal(resPrefix.concat("Executed all scheduled messages.")), true
                         );
 
                         return 1;

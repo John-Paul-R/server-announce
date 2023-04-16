@@ -14,7 +14,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 
 import dev.jpcode.serverannounce.MessageScheduler;
@@ -95,7 +94,7 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
                                 var message = messageScheduler.getScheduledMessage(messageGroupName);
 
                                 if (!(message instanceof PeriodicMessageGroup editableMessage)) {
-                                    context.getSource().sendError(new LiteralText("Message '%s' is not a PeriodicMessageGroup".formatted(messageName)));
+                                    context.getSource().sendError(Text.literal("Message '%s' is not a PeriodicMessageGroup".formatted(messageName)));
                                     return 2;
                                 }
 

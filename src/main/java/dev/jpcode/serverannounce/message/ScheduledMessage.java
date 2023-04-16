@@ -7,7 +7,6 @@ import java.util.Map;
 import com.google.gson.*;
 import org.apache.commons.lang3.NotImplementedException;
 
-import net.minecraft.network.MessageType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
@@ -41,7 +40,7 @@ public abstract class ScheduledMessage implements JsonSerializable {
 
     public void exec(MinecraftServer server) {
         onExec(server);
-        server.getPlayerManager().broadcast(nextMessage(), MessageType.SYSTEM, Util.NIL_UUID);
+        server.getPlayerManager().broadcast(nextMessage(), false);
     }
 
     public void writeJson(JsonObject root) {

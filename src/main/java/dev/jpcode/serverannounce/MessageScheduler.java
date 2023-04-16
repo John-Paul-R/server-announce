@@ -18,7 +18,7 @@ import com.google.gson.stream.JsonWriter;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
@@ -113,11 +113,11 @@ public class MessageScheduler {
     public void initExampleMessage() {
         scheduleMessage("ExampleMessage", new PeriodicSingleMessage(
             "ExampleMessage",
-            new LiteralText("")
-                .append(new LiteralText("ServerAnnounce").formatted(Formatting.GREEN))
-                .append(new LiteralText(" >> ").formatted(Formatting.DARK_GRAY))
+            Text.literal("")
+                .append(Text.literal("ServerAnnounce").formatted(Formatting.GREEN))
+                .append(Text.literal(" >> ").formatted(Formatting.DARK_GRAY))
                 .append(
-                    new LiteralText(String.format(
+                    Text.literal(String.format(
                         "Configure scheduled messages in '%s'.\nThis message will repeat every 2 minutes.",
                         SAVE_PATH.toFile().getPath()
                     )).formatted(Formatting.GRAY)

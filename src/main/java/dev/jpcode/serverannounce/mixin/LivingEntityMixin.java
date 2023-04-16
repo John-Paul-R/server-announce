@@ -9,9 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.Tameable;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.network.MessageType;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
 
 @Mixin(LivingEntity.class)
 public class LivingEntityMixin
@@ -33,7 +31,7 @@ public class LivingEntityMixin
             // Don't repeat message for tamed entities (they already have a message sent in vanilla if named)
             if (!(self instanceof Tameable && ((Tameable)self).getOwner() != null)) {
                 Text text = self.getDamageTracker().getDeathMessage();
-                self.getServer().getPlayerManager().broadcast(text, MessageType.SYSTEM, Util.NIL_UUID);
+                self.getServer().getPlayerManager().broadcast(text, false);
             }
         }
     }
