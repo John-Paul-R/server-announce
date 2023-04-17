@@ -13,7 +13,7 @@
     "issues": "https://github.com/John-Paul-R/server-announce/issues"
   },
   "license": "MIT",
-  "icon": "assets/serverannounce/icon.jpg",
+  "icon": "assets/serverannounce/megaphone_by_Andrew6rant.png",
   "environment": "*",
   "entrypoints": {
     "main": [
