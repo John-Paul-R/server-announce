@@ -70,7 +70,7 @@ Server Announce is open-sourced software licenced under the [MIT licence][licenc
 
 ## Icon credit!
 
-Icon graciously provided by the fancy fella, @Andrew6rant
+Icon graciously provided by the fancy fella, [@Andrew6rant](https://github.com/Andrew6rant)
 
 [contributing]: .github/CONTRIBUTING.md
 [curseforge]: https://curseforge.com/minecraft/mc-mods/serverannounce
