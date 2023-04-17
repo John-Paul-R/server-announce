@@ -8,10 +8,10 @@ Simple, Configurable Server Announcements
 
 <!-- todo: replace 494721 with your CurseForge project id -->
 [![Release](https://img.shields.io/github/v/release/John-Paul-R/server-announce?style=for-the-badge&include_prereleases&sort=semver)][releases]
-[![Available For](https://img.shields.io/badge/dynamic/json?label=Available%20For&style=for-the-badge&color=34aa2f&query=$[:]&url=https%3A%2F%2Fwww.jpcode.dev%2Fkits%2Fsupported_mc_versions.json)][modrinth:files]
+[![Available For](https://img.shields.io/badge/dynamic/json?label=Available%20For&style=for-the-badge&color=34aa2f&query=$[:]&url=https%3A%2F%2Fwww.jpcode.dev%2Fserverannounce%2Fsupported_mc_versions.json)][modrinth:files]
 
-[![Modrinth Downloads](https://img.shields.io/modrinth/dt/kits?color=00AF5C&label=modrinth&style=for-the-badge&logo=modrinth)][modrinth:files]
-[![GitHub Downloads (all releases)](https://img.shields.io/github/downloads/John-Paul-R/kits/total?style=for-the-badge&amp;label=GitHub&amp;prefix=downloads%20&amp;color=4078c0&amp;logo=github)][releases]
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/server-announce?color=00AF5C&label=modrinth&style=for-the-badge&logo=modrinth)][modrinth:files]
+[![GitHub Downloads (all releases)](https://img.shields.io/github/downloads/John-Paul-R/server-announce/total?style=for-the-badge&amp;label=GitHub&amp;prefix=downloads%20&amp;color=4078c0&amp;logo=github)][releases]
 
 </div>
 
