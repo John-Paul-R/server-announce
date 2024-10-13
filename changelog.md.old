@@ -1,0 +1,44 @@
+
+## Server Announce `v2.0.0` (mc 1.19.2)
+
+`v2.0.0` is a Major update to Server Announce (the big number changes!). This means there are _breaking changes_ to how the mod works. In particular, message files created for older versions of Server Announce will not work with versions 2+, as there is a new file format.
+
+This new format has been added to allow some fancy new features, most notably, _scheduled message groups_ ("`PeriodicMessageGroup`"), and in-game setup of scheduled messages via commands!
+
+### New: Message Types
+
+- `SingleMessage` - A message that executes once, after the specified duration has elapsed. Runs that long after the command is executed (and after that duration has elapsed from server start)
+- `PeriodicSingleMessage` - A message that executes repeatedly, in intervals of the specified duration.
+- `PeriodicMessageGroup` - A collection of messages that will by cycled through repeatedly, one message per interval of the specified duration.
+
+## New Commands
+
+Note: All commands start with `/serverannounce` and require OP level `4`.
+
+For reference, it takes `20` Minecraft "tick"s to make a real-life second. 
+
+### `create`
+
+subcommands:
+
+- `periodic_message_group <message_group_name> <period_ticks>`
+- `periodic_single_message <message_name> <period_ticks> <message_text>`
+- `single_message <message_name> <duration_ticks> <message_text>`
+
+### `edit`
+
+subcommands:
+
+- `periodic_message_group <message_group_name> addMessage <message_name> <message_text>`
+
+### `executeAll`
+
+This one's pretty simple. Immediately sends out all scheduled messages, and resets their timers, starting at the current time. Primarily intended to aid with testing.
+
+(Also, notable breaking change, messages are not sent immediately on server start anymore.)
+
+---
+
+If you discover any bugs, you can report them in the [Issue Tracker](https://github.com/John-Paul-R/server-announce/issues).
+
+Additional conversation can be had in the [dev room discord](https://discord.jpcode.dev).
