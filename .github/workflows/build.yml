@@ -54,14 +54,14 @@ jobs:
         run: gradle clean build
 
       - name: 📦 Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: artifacts
           path: '**/build/libs/'
 
       - name: 📝 Upload reports
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: reports
           path: '**/build/reports/'
