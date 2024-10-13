@@ -3,8 +3,8 @@ description: Report a bug
 body:
   - type: markdown
     attributes:
-#      value: |
-#        Before reporting a crash here, please make sure you are on the latest supported version.
+      value: |
+        Before reporting a crash here, please make sure you are on the latest mod version for your version of Minecraft.
 
   - type: input
     attributes:
