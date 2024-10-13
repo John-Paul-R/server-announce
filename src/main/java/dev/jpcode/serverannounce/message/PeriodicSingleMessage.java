@@ -8,6 +8,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -37,14 +38,14 @@ public class PeriodicSingleMessage extends PeriodicScheduledMessage {
 
     public static PeriodicScheduledMessage readJson(JsonObject root) {
         var messagesProp = root.get("message");
-        var message = Text.Serializer.fromJson(messagesProp);
+        var message = deserializeText(messagesProp);
 
         var tickPeriod = root.get("tickPeriod").getAsInt();
         var messageName = root.get("messageName").getAsString();
         return new PeriodicSingleMessage(messageName, message, tickPeriod);
     }
 
-    public static LiteralArgumentBuilder<ServerCommandSource> getEditCommandBuilder() {
+    public static LiteralArgumentBuilder<ServerCommandSource> getEditCommandBuilder(CommandRegistryAccess registryAccess) {
         return CommandManager.literal("periodic_single_message")
             .then(CommandManager.argument("message_name", StringArgumentType.word())
                 .suggests((ctx, suggestionsBuilder) -> MessageScheduler.getInstance()
@@ -53,16 +54,16 @@ public class PeriodicSingleMessage extends PeriodicScheduledMessage {
                     .map(Map.Entry::getKey)
                     .collect(ScCollectors.toSuggestionsProvider(ctx, suggestionsBuilder)))
                 .then(CommandManager.argument("period_ticks", IntegerArgumentType.integer(1))
-                    .then(CommandManager.argument("messaage_text", TextArgumentType.text()))
+                    .then(CommandManager.argument("messaage_text", TextArgumentType.text(registryAccess)))
                 )
             );
     }
 
-    public static LiteralArgumentBuilder<ServerCommandSource> getCreateCommandBuilder() {
+    public static LiteralArgumentBuilder<ServerCommandSource> getCreateCommandBuilder(CommandRegistryAccess registryAccess) {
         return CommandManager.literal("periodic_single_message")
             .then(CommandManager.argument("message_name", StringArgumentType.word())
                 .then(CommandManager.argument("period_ticks", IntegerArgumentType.integer(1))
-                    .then(CommandManager.argument("messaage_text", TextArgumentType.text())
+                    .then(CommandManager.argument("messaage_text", TextArgumentType.text(registryAccess))
                         .executes(context -> {
                             var messageName = StringArgumentType.getString(context, "message_name");
                             var periodTicks = IntegerArgumentType.getInteger(context, "period_ticks");

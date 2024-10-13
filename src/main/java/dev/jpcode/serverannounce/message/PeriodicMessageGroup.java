@@ -11,6 +11,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -66,7 +67,7 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
         var messagesProp = root.get("messages").getAsJsonObject();
         var messages = new HashMap<String, Text>();
         for (Map.Entry<String, JsonElement> entry : messagesProp.entrySet()) {
-            messages.put(entry.getKey(), Text.Serializer.fromJson(entry.getValue()));
+            messages.put(entry.getKey(), deserializeText(entry.getValue()));
         }
 
         var tickPeriod = root.get("tickPeriod").getAsInt();
@@ -74,7 +75,7 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
         return new PeriodicMessageGroup(messageName, messages, tickPeriod);
     }
 
-    public static LiteralArgumentBuilder<ServerCommandSource> getEditCommandBuilder() {
+    public static LiteralArgumentBuilder<ServerCommandSource> getEditCommandBuilder(CommandRegistryAccess registryAccess) {
         return CommandManager.literal("periodic_message_group")
             .then(CommandManager.argument("message_group_name", StringArgumentType.word())
                 .suggests((ctx, suggestionsBuilder) -> MessageScheduler.getInstance()
@@ -84,7 +85,7 @@ public class PeriodicMessageGroup extends PeriodicScheduledMessage {
                     .collect(ScCollectors.toSuggestionsProvider(ctx, suggestionsBuilder)))
                 .then(CommandManager.literal("addMessage")
                     .then(CommandManager.argument("message_name", StringArgumentType.word())
-                        .then(CommandManager.argument("messaage_text", TextArgumentType.text())
+                        .then(CommandManager.argument("messaage_text", TextArgumentType.text(registryAccess))
                             .executes(context -> {
                                 var messageGroupName = StringArgumentType.getString(context, "message_group_name");
                                 var messageName = StringArgumentType.getString(context, "message_name");

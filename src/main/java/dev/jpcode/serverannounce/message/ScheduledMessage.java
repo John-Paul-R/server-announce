@@ -7,10 +7,13 @@ import java.util.Map;
 import com.google.gson.*;
 import org.apache.commons.lang3.NotImplementedException;
 
+import com.mojang.serialization.JsonOps;
+
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.Style;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.util.LowercaseEnumTypeAdapterFactory;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.Util;
 
 import dev.jpcode.serverannounce.ServerAnnounce;
@@ -61,21 +64,16 @@ public abstract class ScheduledMessage implements JsonSerializable {
         return tickPeriod;
     }
 
-    protected JsonElement serializeText(Text text) {
-        return Text.Serializer.toJsonTree(text);
+    protected static JsonElement serializeText(Text text) {
+        return TextCodecs.CODEC.encodeStart(DynamicRegistryManager.EMPTY.getOps(JsonOps.INSTANCE), text).getOrThrow(JsonParseException::new);
+    }
+
+    protected static MutableText deserializeText(JsonElement json) {
+        return (MutableText)TextCodecs.CODEC.parse(DynamicRegistryManager.EMPTY.getOps(JsonOps.INSTANCE), json).getOrThrow(JsonParseException::new);
     }
 
     // --- Serializer ---
     public static class Serializer implements JsonDeserializer<ScheduledMessage>, JsonSerializer<ScheduledMessage> {
-        private static final Gson GSON = Util.make(() -> {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            gsonBuilder.disableHtmlEscaping();
-            gsonBuilder.registerTypeHierarchyAdapter(Text.class, new Text.Serializer());
-            gsonBuilder.registerTypeHierarchyAdapter(Style.class, new net.minecraft.text.Style.Serializer());
-            gsonBuilder.registerTypeAdapterFactory(new LowercaseEnumTypeAdapterFactory());
-            return gsonBuilder.create();
-        });
-
         private ScheduledMessageType getTypeCode(ScheduledMessage scheduledMessage) {
             if (scheduledMessage instanceof PeriodicMessageGroup) {
                 return ScheduledMessageType.PeriodicMessageGroup;

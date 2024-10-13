@@ -6,6 +6,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.TextArgumentType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.CommandManager;
@@ -46,18 +47,18 @@ public class SingleMessage extends ScheduledMessage {
 
     public static SingleMessage readJson(JsonObject root) {
         var messagesProp = root.get("message");
-        var message = Text.Serializer.fromJson(messagesProp);
+        var message = deserializeText(messagesProp);
 
         var tickPeriod = root.get("tickPeriod").getAsInt();
         var messageName = root.get("messageName").getAsString();
         return new SingleMessage(messageName, message, tickPeriod);
     }
 
-    public static LiteralArgumentBuilder<ServerCommandSource> getCreateCommandBuilder() {
+    public static LiteralArgumentBuilder<ServerCommandSource> getCreateCommandBuilder(CommandRegistryAccess registryAccess) {
         return CommandManager.literal("single_message")
             .then(CommandManager.argument("message_name", StringArgumentType.word())
                 .then(CommandManager.argument("delay_ticks", IntegerArgumentType.integer(1))
-                    .then(CommandManager.argument("messaage_text", TextArgumentType.text())
+                    .then(CommandManager.argument("messaage_text", TextArgumentType.text(registryAccess))
                         .executes(context -> {
                             var messageName = StringArgumentType.getString(context, "message_name");
                             var delayTicks = IntegerArgumentType.getInteger(context, "delay_ticks");

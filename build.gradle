@@ -27,7 +27,7 @@ allprojects {
     version = full_version
     archivesBaseName = "${project.mod_id}"
 
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_21
 
     // Declare dependencies
     dependencies {
