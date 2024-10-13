@@ -61,8 +61,12 @@ This one's pretty simple. Immediately sends out all scheduled messages, and rese
 
 ## Contributing
 
-Thank you for considering contributing to Server Announce! Please see the
-[Contribution Guidelines][contributing].
+Thank you for considering contributing to Server Announce! Pull Requests are
+welcome and greatly appreciated. I can't guaranteed that every PR will be
+approved, though. Feel free to reach out in my [development
+discord](https://discord.jpcode.dev) or in an
+[Issue](https://github.com/John-Paul-R/server-announce/issues) relevant to the
+change ahead of time to confirm the idea!
 
 ## Licence
 
