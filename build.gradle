@@ -7,7 +7,7 @@ plugins {
     id 'com.modrinth.minotaur' version '2.+'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id "com.github.breadmoirai.github-release" version "2.3.7"
-    id 'fabric-loom' version '1.0-SNAPSHOT'
+    id 'fabric-loom' version '1.8-SNAPSHOT'
 }
 
 ext.env = loadenv()
@@ -198,7 +198,7 @@ githubRelease {
     owner project.gh_owner // default is the last part of your group. Eg group: "com.github.breadmoirai" => owner: "breadmoirai"
     repo project.gh_repo // by default this is set to your project name
     tagName project.version // by default this is set to "v${project.version}"
-    targetCommitish "1.19.4" // by default this is set to "master"
+    targetCommitish "1.20.1" // by default this is set to "master"
     releaseName project.version // Release title, by default this is the same as the tagName
     body getChangelog() // by default this is empty
     draft true // by default this is false

@@ -33,7 +33,7 @@ public final class ServerAnnounceCommandRegistry {
                 .then(CommandManager.literal("reload")
                     .executes(context -> {
                         MessageScheduler.getInstance().load();
-                        context.getSource().sendFeedback(
+                        context.getSource().sendFeedback(() ->
                             Text.literal(resPrefix.concat("MessageScheduler reloaded from disk")), true
                         );
                         return 1;
@@ -41,7 +41,7 @@ public final class ServerAnnounceCommandRegistry {
                 .then(CommandManager.literal("save")
                     .executes(context -> {
                         MessageScheduler.getInstance().save();
-                        context.getSource().sendFeedback(
+                        context.getSource().sendFeedback(() ->
                             Text.literal(resPrefix.concat("MessageScheduler state saved to disk")), true
                         );
                         return 1;
@@ -50,7 +50,7 @@ public final class ServerAnnounceCommandRegistry {
                 .then(CommandManager.literal("createExampleMessage")
                     .executes(context -> {
                         MessageScheduler.getInstance().initExampleMessage();
-                        context.getSource().sendFeedback(
+                        context.getSource().sendFeedback(() ->
                             Text.literal(resPrefix.concat("Created an example announcement message.")), true
                         );
                         return 1;
@@ -60,7 +60,7 @@ public final class ServerAnnounceCommandRegistry {
                         MessageScheduler.getInstance().streamScheduledMessages()
                             .forEach(m -> m.exec(context.getSource().getServer()));
 
-                        context.getSource().sendFeedback(
+                        context.getSource().sendFeedback(() ->
                             Text.literal(resPrefix.concat("Executed all scheduled messages.")), true
                         );
 
@@ -88,7 +88,7 @@ public final class ServerAnnounceCommandRegistry {
                             if (deletedNode == null) {
                                 context.getSource().sendError(Text.of("No scheduled message with name '%s' exists.".formatted(messageName)));
                             } else {
-                                context.getSource().sendFeedback(Text.of("Deleted scheduled message '%s'".formatted(messageName)), true);
+                                context.getSource().sendFeedback(() -> Text.of("Deleted scheduled message '%s'".formatted(messageName)), true);
                             }
                             return 1;
                         })
