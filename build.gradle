@@ -201,12 +201,13 @@ githubRelease {
     targetCommitish "1.21.1" // by default this is set to "master"
     releaseName project.version // Release title, by default this is the same as the tagName
     body getChangelog() // by default this is empty
-    draft true // by default this is false
+    draft false // by default this is false
     prerelease false // by default this is false
-    releaseAssets jar.destinationDirectory.getAsFileTree().matching {
-        include "**/*${project.version}.jar"
-//		include "**/*${project.mod_version}-sources.jar"
-    }// this points to which files you want to upload as assets with your release
+    releaseAssets remapJar
+//    jar.destinationDirectory.getAsFileTree().matching {
+//        include "**/*${project.version}.jar"
+////		include "**/*${project.mod_version}-sources.jar"
+//    }// this points to which files you want to upload as assets with your release
     //jar.outputs.getFiles().asPath//
     overwrite false // by default false; if set to true, will delete an existing release with the same tag and name
     dryRun false // by default false; you can use this to see what actions would be taken without making a release
